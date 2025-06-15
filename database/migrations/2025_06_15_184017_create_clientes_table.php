@@ -13,7 +13,9 @@ return new class extends Migration
     {
         Schema::create('clientes', function (Blueprint $table) {
             $table->id();
+            
             $table->foreignId('empresa_id')->constrained()->cascadeOnDelete();
+            $table->foreignId('user_id')->nullable()->constrained()->nullOnDelete();
 
             $table->enum('tipo', ['pf', 'pj'])->default('pf');
 
