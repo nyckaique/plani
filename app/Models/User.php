@@ -26,7 +26,7 @@ class User extends Authenticatable
      * @var list<string>
      */
     protected $fillable = [
-        'name', 'email', 'password', 'empresa_id', 'is_superadmin',
+        'name', 'email', 'password', 'empresa_id',
     ];
 
     public function empresa(): BelongsTo

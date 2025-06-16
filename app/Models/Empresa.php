@@ -9,7 +9,7 @@ use App\Models\Cliente;
 
 class Empresa extends Model
 {
-    protected $fillable = ['nome', 'cnpj', 'email', 'telefone'];
+    protected $fillable = ['nome', 'cnpj', 'email', 'telefone', 'endereco'];
 
     public function users(): HasMany
     {

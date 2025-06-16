@@ -64,10 +64,30 @@ class UserResource extends Resource
     {
         return $table
             ->columns([
-                TextColumn::make('name')->label('Nome')->searchable(),
-                TextColumn::make('email')->label('E-mail')->searchable(),
-                TextColumn::make('roles.name')->label('Função')->badge(),
-                TextColumn::make('created_at')->label('Criado em')->dateTime('d/m/Y'),
+                TextColumn::make('name')
+                    ->label('Nome')
+                    ->searchable(),
+                TextColumn::make('email')
+                    ->label('E-mail')
+                    ->searchable()
+                    ->copyable()
+                    ->copyMessage('E-mail copiado!')
+                    ->icon('heroicon-m-envelope')
+                    ->iconColor('primary')
+                    ->color('primary'),
+                TextColumn::make('roles.name')
+                    ->label('Função')
+                    ->badge()
+                    ->color(fn ($state) => match ($state) {
+                        'Superadmin' => 'primary',
+                        'Admin' => 'secondary',
+                        'Gerente' => 'info',
+                        'Funcionário' => 'success',
+                        default => 'primary',
+                    }),
+                TextColumn::make('created_at')
+                    ->label('Criado em')
+                    ->dateTime('d/m/Y'),
             ])
             ->filters([])
             ->actions([
@@ -99,7 +119,8 @@ class UserResource extends Resource
     {
         $query = parent::getEloquentQuery();
 
-        if (!auth()->user()->is_superadmin) {
+        // Se não for superadmin, restringe por empresa
+        if (!auth()->user()->hasRole('Superadmin')) {
             $query->where('empresa_id', auth()->user()->empresa_id);
         }
 
@@ -108,7 +129,7 @@ class UserResource extends Resource
 
     public static function mutateFormDataBeforeCreate(array $data): array
     {
-        if (!auth()->user()->is_superadmin) {
+        if (!auth()->user()->hasRole('Superadmin')) {
             $data['empresa_id'] = auth()->user()->empresa_id;
         }
 
@@ -117,11 +138,39 @@ class UserResource extends Resource
 
     public static function mutateFormDataBeforeSave(array $data): array
     {
-        if (!auth()->user()->is_superadmin) {
+        if (!auth()->user()->hasRole('Superadmin')) {
             $data['empresa_id'] = auth()->user()->empresa_id;
         }
 
         return $data;
     }
+
+
+    public static function canViewAny(): bool
+    {
+        return auth()->user()->hasRole('Superadmin') || auth()->user()->can('gerenciar usuários');
+    }
+
+    public static function canCreate(): bool
+    {
+        return auth()->user()->hasRole('Superadmin') || auth()->user()->can('gerenciar usuários');
+    }
+
+    public static function canEdit($record): bool
+    {
+        return auth()->user()->hasRole('Superadmin') || auth()->user()->can('gerenciar usuários');
+    }
+
+    public static function canDelete($record): bool
+    {
+        return auth()->user()->hasRole('Superadmin') || auth()->user()->can('gerenciar usuários');
+    }
+
+    public static function shouldRegisterNavigation(): bool
+    {
+        return auth()->user()->hasRole('Superadmin') || auth()->user()->can('gerenciar usuários');
+    }
+
+
 
 }

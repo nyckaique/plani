@@ -87,12 +87,43 @@ class ClienteResource extends Resource
     {
         return $table
             ->columns([
-                TextColumn::make('nome')->label('Nome'),
-                TextColumn::make('cpf')->label('CPF'),
-                TextColumn::make('razao_social')->label('Razão Social'),
-                TextColumn::make('cnpj')->label('CNPJ'),
-                TextColumn::make('telefone')->label('Telefone'),
-                TextColumn::make('email')->label('E-mail'),
+                TextColumn::make('nome')
+                    ->label('Nome')
+                    ->searchable()
+                    ->copyable()
+                    ->copyMessage('Nome copiado!'),
+                TextColumn::make('cpf')
+                    ->label('CPF')
+                    ->formatStateUsing(fn ($state) => preg_replace('/(\d{3})(\d{3})(\d{3})(\d{2})/', '$1.$2.$3-$4', $state))
+                    ->copyable()
+                    ->copyMessage('CPF copiado!'),
+                TextColumn::make('razao_social')
+                    ->label('Razão Social')
+                    ->copyable()
+                    ->copyMessage('Razão Social copiada!'),
+                TextColumn::make('cnpj')
+                    ->label('CNPJ')
+                    ->formatStateUsing(fn ($state) => preg_replace('/(\d{2})(\d{3})(\d{3})(\d{4})(\d{2})/', '$1.$2.$3/$4-$5', $state))
+                    ->copyable()
+                    ->copyMessage('CNPJ copiado!'),
+                TextColumn::make('email')
+                    ->label('E-mail')
+                    ->icon('heroicon-m-envelope')
+                    ->iconColor('primary')
+                    ->copyable()
+                    ->copyMessage('E-mail copiado!')
+                    ->color('primary'),
+                TextColumn::make('telefone')
+                    ->label('WhatsApp')
+                    ->formatStateUsing(fn ($state) => preg_replace(
+                        '/(\d{2})(\d{5})(\d{4})/',
+                        '($1) $2-$3',
+                        preg_replace('/\D/', '', $state)
+                    ))
+                    ->url(fn ($record) => 'https://wa.me/' . preg_replace('/\D/', '', $record->telefone))
+                    ->openUrlInNewTab()
+                    ->icon('heroicon-o-chat-bubble-bottom-center-text')
+                    ->color('success'),
                 TextColumn::make('tipo')
                     ->label('Tipo')
                     ->formatStateUsing(fn ($state) => match ($state) {
@@ -100,6 +131,10 @@ class ClienteResource extends Resource
                         'pj' => 'Pessoa Jurídica',
                         default => $state,
                     })
+                    ->badge(),
+                TextColumn::make('created_at')
+                    ->label('Criado em')
+                    ->dateTime('d/m/Y'),
             ])
             ->filters([
                 //
@@ -129,4 +164,29 @@ class ClienteResource extends Resource
             'edit' => Pages\EditCliente::route('/{record}/edit'),
         ];
     }
+    public static function canViewAny(): bool
+    {
+        return auth()->user()->hasRole('Superadmin') || auth()->user()->can('ver clientes');
+    }
+
+    public static function canCreate(): bool
+    {
+        return auth()->user()->hasRole('Superadmin') || auth()->user()->can('criar clientes');
+    }
+
+    public static function canEdit($record): bool
+    {
+        return auth()->user()->hasRole('Superadmin') || auth()->user()->can('editar clientes');
+    }
+
+    public static function canDelete($record): bool
+    {
+        return auth()->user()->hasRole('Superadmin') || auth()->user()->can('deletar clientes');
+    }
+
+    public static function shouldRegisterNavigation(): bool
+    {
+        return auth()->user()->hasRole('Superadmin') || auth()->user()->can('ver clientes');
+    }
+
 }

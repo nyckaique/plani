@@ -33,22 +33,35 @@ class RoleSeeder extends Seeder
         }
 
         // Cargos
+        $superadmin = Role::firstOrCreate(['name' => 'Superadmin']);
         $admin = Role::firstOrCreate(['name' => 'Admin']);
         $gerente = Role::firstOrCreate(['name' => 'Gerente']);
         $funcionario = Role::firstOrCreate(['name' => 'Funcionário']);
 
         // Define permissões para cada cargo
-        $admin->syncPermissions($permissions);
+        $superadmin->syncPermissions(Permission::all());
+        
+        $admin->syncPermissions([
+            'ver clientes',
+            'criar clientes',
+            'editar clientes',
+            'deletar clientes',
+            'ver empresa',
+            'editar empresa',
+            'gerenciar usuários',
+        ]);
 
         $gerente->syncPermissions([
             'ver clientes',
             'criar clientes',
             'editar clientes',
             'deletar clientes',
+            'ver empresa',
         ]);
 
         $funcionario->syncPermissions([
             'ver clientes',
+            'ver empresa',
         ]);
     }
 }

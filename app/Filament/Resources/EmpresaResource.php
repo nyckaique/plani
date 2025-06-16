@@ -41,6 +41,9 @@ class EmpresaResource extends Resource
                 TextInput::make('telefone')
                     ->tel()
                     ->maxLength(20),
+                TextInput::make('endereco')
+                    ->label('Endereço')
+                    ->maxLength(255),
             ]);
     }
 
@@ -48,10 +51,42 @@ class EmpresaResource extends Resource
     {
         return $table
             ->columns([
-                TextColumn::make('nome')->searchable(),
-                TextColumn::make('cnpj'),
-                TextColumn::make('email'),
-                TextColumn::make('created_at')->dateTime(),
+                TextColumn::make('nome')
+                    ->searchable()
+                    ->copyable()
+                    ->copyMessage('Nome copiado!'),
+                TextColumn::make('cnpj')
+                    ->label('CNPJ')
+                    ->formatStateUsing(function ($state) {
+                        return preg_replace('/(\d{2})(\d{3})(\d{3})(\d{4})(\d{2})/', '$1.$2.$3/$4-$5', $state);
+                    })
+                    ->copyable()
+                    ->copyMessage('CNPJ copiado!'),
+                TextColumn::make('email')
+                    ->label('E-mail')
+                    ->icon('heroicon-m-envelope')
+                    ->iconColor('primary')
+                    ->copyable()
+                    ->copyMessage('E-mail copiado!')
+                    ->color('primary'),
+                TextColumn::make('telefone')
+                    ->label('WhatsApp')
+                    ->formatStateUsing(fn ($state) => preg_replace(
+                        '/(\d{2})(\d{5})(\d{4})/',
+                        '($1) $2-$3',
+                        preg_replace('/\D/', '', $state)
+                    ))
+                    ->url(fn ($record) => 'https://wa.me/' . preg_replace('/\D/', '', $record->telefone))
+                    ->openUrlInNewTab()
+                    ->icon('heroicon-o-chat-bubble-bottom-center-text')
+                    ->color('success'),
+                TextColumn::make('endereco')
+                    ->label('Endereço')
+                    ->copyable()
+                    ->copyMessage('Endereço copiado!'),
+                TextColumn::make('created_at')
+                    ->label('Criado em')
+                    ->dateTime('d/m/Y'),
             ])
             ->defaultSort('created_at', 'desc')
             ->filters([
@@ -70,7 +105,8 @@ class EmpresaResource extends Resource
     public static function getRelations(): array
     {
         return [
-            //
+            RelationManagers\UsersRelationManager::class,
+            RelationManagers\ClientesRelationManager::class,
         ];
     }
 
@@ -85,7 +121,27 @@ class EmpresaResource extends Resource
 
     public static function canViewAny(): bool
     {
-        return auth()->user()?->is_superadmin ?? false;
+        return true; // Todos podem ver a própria empresa
+    }
+
+    public static function canCreate(): bool
+    {
+        return auth()->user()->hasRole('Superadmin');
+    }
+
+    public static function canEdit($record): bool
+    {
+        return auth()->user()->hasRole('Superadmin') || auth()->user()->hasRole('Admin');
+    }
+
+    public static function canDelete($record): bool
+    {
+        return auth()->user()->hasRole('Superadmin');
+    }
+
+    public static function shouldRegisterNavigation(): bool
+    {
+        return auth()->user()->hasRole('Superadmin') || auth()->user()->can('ver empresa');
     }
 
 }

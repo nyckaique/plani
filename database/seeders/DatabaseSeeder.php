@@ -21,13 +21,13 @@ class DatabaseSeeder extends Seeder
         ]);
 
         // 1. Cria superadmin global (sem empresa)
-        User::create([
+        $superadmin = User::create([
             'name' => 'Nycollas Kaique',
             'email' => 'nycollaskaique@hotmail.com',
             'password' => Hash::make('password'),
             'empresa_id' => null,
-            'is_superadmin' => true,
         ]);
+        $superadmin->assignRole('Superadmin');
 
         // 2. Cria uma empresa exemplo
         $empresa = Empresa::create([
@@ -44,21 +44,29 @@ class DatabaseSeeder extends Seeder
             'email' => 'admin@empresaexemplo.com',
             'password' => Hash::make('password'),
             'empresa_id' => $empresa->id,
-            'is_superadmin' => false,
         ]);
         $admin->assignRole('Admin');
 
-        // 4. Cria usuário comum da empresa
-        $usuario = User::create([
-            'name' => 'Usuário Teste',
-            'email' => 'usuario@empresaexemplo.com',
+        // 4. Cria gerente da empresa
+
+        $gerente = User::create([
+            'name' => 'Gerente Teste',
+            'email' => 'gerente@empresaexemplo.com',
             'password' => Hash::make('password'),
             'empresa_id' => $empresa->id,
-            'is_superadmin' => false,
+        ]);
+        $gerente->assignRole('Gerente');
+
+        // 5. Cria funcionário da empresa
+        $usuario = User::create([
+            'name' => 'Funcionário Teste',
+            'email' => 'funcionario@empresaexemplo.com',
+            'password' => Hash::make('password'),
+            'empresa_id' => $empresa->id,
         ]);
         $usuario->assignRole('Funcionário');
 
-        // 5. Cria cliente exemplo para a empresa
+        // 6. Cria cliente exemplo para a empresa
         Cliente::create([
             'empresa_id' => $empresa->id,
             'nome' => 'Cliente Teste PF',
