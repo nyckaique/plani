@@ -53,7 +53,6 @@ class UserResource extends Resource
                 Select::make('roles')
                     ->label('Função')
                     ->relationship('roles', 'name')
-                    ->multiple()
                     ->preload()
                     ->required()
                     ->columnSpanFull(),

@@ -32,14 +32,16 @@ class AdminPanelProvider extends PanelProvider
             ->path('admin')
             ->login()
             ->colors([
-                'primary' => 'rgb(20,0,255)',
+                'primary' => 'rgb(49, 46, 129)',
                 'secondary' => 'rgb(131, 14, 177)',
             ])
-            ->brandName('PLANI')
+            ->brandName('Plani')
             ->profile()
             ->passwordReset()
             ->sidebarWidth('200px')
+            ->font('Oxygen')
             ->viteTheme('resources/css/filament/admin/theme.css')
+            ->sidebarCollapsibleOnDesktop()
             ->discoverResources(in: app_path('Filament/Resources'), for: 'App\\Filament\\Resources')
             ->discoverPages(in: app_path('Filament/Pages'), for: 'App\\Filament\\Pages')
             ->pages([
