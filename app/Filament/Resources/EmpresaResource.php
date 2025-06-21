@@ -86,7 +86,8 @@ class EmpresaResource extends Resource
                     ->copyMessage('Endereço copiado!'),
                 TextColumn::make('created_at')
                     ->label('Criado em')
-                    ->dateTime('d/m/Y'),
+                    ->dateTime('d/m/Y')
+                    ->timezone('America/Sao_Paulo'),
             ])
             ->defaultSort('created_at', 'desc')
             ->filters([

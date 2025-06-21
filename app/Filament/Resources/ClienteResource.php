@@ -134,7 +134,8 @@ class ClienteResource extends Resource
                     ->badge(),
                 TextColumn::make('created_at')
                     ->label('Criado em')
-                    ->dateTime('d/m/Y'),
+                    ->dateTime('d/m/Y')
+                    ->timezone('America/Sao_Paulo'),
             ])
             ->filters([
                 //
@@ -152,7 +153,7 @@ class ClienteResource extends Resource
     public static function getRelations(): array
     {
         return [
-            //
+            RelationManagers\RelatoriosRelationManager::class
         ];
     }
 

@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use App\Models\User;
 use App\Models\Empresa;
 
@@ -22,4 +23,10 @@ class Cliente extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    public function relatorios(): HasMany 
+    {
+        return $this->hasMany(RelatorioAtendimento::class);
+    }
+
 }

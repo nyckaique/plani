@@ -61,6 +61,8 @@ class RoleSeeder extends Seeder
 
         $funcionario->syncPermissions([
             'ver clientes',
+            'criar clientes',
+            'editar clientes',
             'ver empresa',
         ]);
     }

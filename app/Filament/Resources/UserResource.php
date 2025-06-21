@@ -26,6 +26,7 @@ class UserResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-user-group';
     protected static ?string $navigationGroup = 'Administração';
+    protected static ?string $modelLabel = 'Usuário';
 
     public static function form(Form $form): Form
     {
@@ -54,8 +55,7 @@ class UserResource extends Resource
                     ->label('Função')
                     ->relationship('roles', 'name')
                     ->preload()
-                    ->required()
-                    ->columnSpanFull(),
+                    ->required(),
             ]);
     }
 
@@ -86,7 +86,8 @@ class UserResource extends Resource
                     }),
                 TextColumn::make('created_at')
                     ->label('Criado em')
-                    ->dateTime('d/m/Y'),
+                    ->dateTime('d/m/Y')
+                    ->timezone('America/Sao_Paulo'),
             ])
             ->filters([])
             ->actions([

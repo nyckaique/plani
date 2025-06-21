@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use App\Models\User;
 use App\Models\Empresa;
 use App\Models\Cliente;
+use App\Models\RelatorioAtendimento;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
@@ -23,7 +24,7 @@ class DatabaseSeeder extends Seeder
         // 1. Cria superadmin global (sem empresa)
         $superadmin = User::create([
             'name' => 'Nycollas Kaique',
-            'email' => 'nycollaskaique@hotmail.com',
+            'email' => 'superadmin@plani.com',
             'password' => Hash::make('password'),
             'empresa_id' => null,
         ]);
@@ -33,7 +34,7 @@ class DatabaseSeeder extends Seeder
         $empresa = Empresa::create([
             'nome' => 'Empresa Exemplo Ltda',
             'cnpj' => '12345678000199',
-            'email' => 'contato@empresaexemplo.com',
+            'email' => 'contato@exemplo.com',
             'telefone' => '11999999999',
             'endereco' => 'Rua Exemplo, 123, São Paulo - SP',
         ]);
@@ -41,7 +42,7 @@ class DatabaseSeeder extends Seeder
         // 3. Cria admin da empresa
         $admin = User::create([
             'name' => 'Admin Empresa',
-            'email' => 'admin@empresaexemplo.com',
+            'email' => 'admin@exemplo.com',
             'password' => Hash::make('password'),
             'empresa_id' => $empresa->id,
         ]);
@@ -51,7 +52,7 @@ class DatabaseSeeder extends Seeder
 
         $gerente = User::create([
             'name' => 'Gerente Teste',
-            'email' => 'gerente@empresaexemplo.com',
+            'email' => 'gerente@exemplo.com',
             'password' => Hash::make('password'),
             'empresa_id' => $empresa->id,
         ]);
@@ -60,7 +61,7 @@ class DatabaseSeeder extends Seeder
         // 5. Cria funcionário da empresa
         $usuario = User::create([
             'name' => 'Funcionário Teste',
-            'email' => 'funcionario@empresaexemplo.com',
+            'email' => 'funcionario@exemplo.com',
             'password' => Hash::make('password'),
             'empresa_id' => $empresa->id,
         ]);
