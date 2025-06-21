@@ -22,12 +22,14 @@ use App\Filament\Widgets\TotalClientes;
 use App\Filament\Widgets\TotalEmpresas;
 use App\Filament\Widgets\TotalUsuarios;
 
+use Filament\Support\Facades\FilamentView;
+use Filament\View\PanelsRenderHook;
+
 class AdminPanelProvider extends PanelProvider
 {
     public function panel(Panel $panel): Panel
     {
         return $panel
-
             ->default()
             ->id('admin')
             ->path('admin')
@@ -37,6 +39,7 @@ class AdminPanelProvider extends PanelProvider
                 'secondary' => 'rgb(131, 14, 177)',
             ])
             ->brandName('Plani')
+            ->favicon(asset('images/favicon.png'))
             ->profile()
             ->passwordReset()
             ->sidebarWidth('200px')
@@ -64,5 +67,18 @@ class AdminPanelProvider extends PanelProvider
             ->authMiddleware([
                 Authenticate::class,
             ]);
+    }
+
+    public function boot(): void
+    {
+        FilamentView::registerRenderHook(
+            PanelsRenderHook::AUTH_LOGIN_FORM_AFTER,
+            fn () => view('auth.test-users')
+        );
+
+        FilamentView::registerRenderHook(
+        PanelsRenderHook::SIDEBAR_FOOTER,
+        fn () => view('sidebar.copyright')
+    );
     }
 }

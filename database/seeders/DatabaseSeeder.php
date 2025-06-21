@@ -9,6 +9,7 @@ use App\Models\RelatorioAtendimento;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
+use Faker\Factory as Faker;
 
 class DatabaseSeeder extends Seeder
 {
@@ -23,7 +24,7 @@ class DatabaseSeeder extends Seeder
 
         // 1. Cria superadmin global (sem empresa)
         $superadmin = User::create([
-            'name' => 'Nycollas Kaique',
+            'name' => 'Super Admin Plani',
             'email' => 'superadmin@plani.com',
             'password' => Hash::make('password'),
             'empresa_id' => null,
@@ -67,16 +68,51 @@ class DatabaseSeeder extends Seeder
         ]);
         $usuario->assignRole('Funcionário');
 
-        // 6. Cria cliente exemplo para a empresa
-        Cliente::create([
-            'empresa_id' => $empresa->id,
-            'nome' => 'Cliente Teste PF',
-            'cpf' => '123.456.789-00',
-            'tipo' => 'pf',
-            'telefone' => '11988887777',
-            'email' => 'cliente@teste.com',
-            'endereco' => 'Rua Cliente, 45',
-            'user_id' => $usuario->id,
-        ]);
+        $faker = Faker::create('pt_BR');
+        // Armazenar clientes criados para depois gerar relatórios
+        $clientes = [];
+
+        // Criar 20 clientes PF
+        foreach (range(1, 20) as $i) {
+            $clientes[] = Cliente::create([
+                'empresa_id' => $empresa->id,
+                'tipo' => 'pf',
+                'nome' => $faker->name(),
+                'cpf' => $faker->cpf(false),
+                'telefone' => $faker->cellphoneNumber(),
+                'email' => $faker->unique()->safeEmail(),
+                'endereco' => $faker->address(),
+                'razao_social' => null,
+                'cnpj' => null,
+            ]);
+        }
+
+        // Criar 20 clientes PJ
+        foreach (range(1, 20) as $i) {
+            $clientes[] = Cliente::create([
+                'empresa_id' => $empresa->id,
+                'tipo' => 'pj',
+                'nome' => null,
+                'cpf' => null,
+                'razao_social' => $faker->company(),
+                'cnpj' => $faker->cnpj(false),
+                'telefone' => $faker->phoneNumber(),
+                'email' => $faker->unique()->companyEmail(),
+                'endereco' => $faker->address(),
+            ]);
+        }
+
+        // Para cada cliente, criar entre 1 e 5 relatórios
+        foreach ($clientes as $cliente) {
+            $numRelatorios = rand(1, 5);
+
+            for ($j = 0; $j < $numRelatorios; $j++) {
+                RelatorioAtendimento::create([
+                    'cliente_id' => $cliente->id,
+                    'data' => $faker->dateTimeBetween('-1 years', 'now')->format('Y-m-d'),
+                    'descricao' => $faker->paragraph(3),
+                ]);
+            }
+        }
     }
 }

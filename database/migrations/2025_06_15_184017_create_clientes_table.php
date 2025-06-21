@@ -15,7 +15,6 @@ return new class extends Migration
             $table->id();
             
             $table->foreignId('empresa_id')->constrained()->cascadeOnDelete();
-            $table->foreignId('user_id')->nullable()->constrained()->nullOnDelete();
 
             $table->enum('tipo', ['pf', 'pj'])->default('pf');
 
@@ -30,11 +29,11 @@ return new class extends Migration
             $table->string('telefone')->nullable();
             $table->string('email')->nullable();
             $table->string('endereco')->nullable();
-
-            $table->timestamps();
-
+            
             $table->index('cpf');
             $table->index('cnpj');
+            
+            $table->timestamps();
         });
     }
 

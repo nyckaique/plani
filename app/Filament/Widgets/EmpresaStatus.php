@@ -23,7 +23,7 @@ class EmpresaStatus extends BaseWidget
     {
         return [
             Stat::make('Clientes',Cliente::where('empresa_id', auth()->user()->empresa_id)->count()),
-            Stat::make('Usuários', User::where('empresa_id', auth()->user()->empresa_id)->count())
+            Stat::make('Usuários da Empresa', User::where('empresa_id', auth()->user()->empresa_id)->count())
         ];
     }
 

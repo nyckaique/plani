@@ -13,7 +13,7 @@ class UltimosClientesEmpresa extends BaseWidget
 {
     protected static ?int $sort = 3;
     protected static ?string $heading = 'Últimos Clientes Cadastrados';
-    protected int | string | array $columnSpan = 6;
+    protected int | string | array $columnSpan = 12;
     
     public function table(Table $table): Table
     {
@@ -22,15 +22,14 @@ class UltimosClientesEmpresa extends BaseWidget
                 Cliente::query()
                     ->where('empresa_id', auth()->user()->empresa_id)
                     ->latest()
-                    ->limit(10)
+                    ->limit(20)
             )
             ->columns([
                 TextColumn::make('nome')
                     ->label('Nome')
                     ->searchable()
-                    ->copyable()
-                    ->copyMessage('Nome copiado!')
-                    ->sortable(),
+                    ->sortable()
+                    ->url(fn ($record) => route('filament.admin.resources.clientes.edit', ['record' => $record])),
 
                 TextColumn::make('email')
                     ->label('E-mail')
@@ -56,12 +55,7 @@ class UltimosClientesEmpresa extends BaseWidget
                     ->label('Criado em')
                     ->dateTime('d/m/Y')
                     ->sortable(),
-            ])
-            ->actions(
-                auth()->user()->hasAnyRole(['Admin', 'Gerente'])
-                    ? [EditAction::make()]
-                    : []
-            );
+            ]);  
     }
     public static function canView(): bool
     {

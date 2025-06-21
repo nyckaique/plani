@@ -108,7 +108,7 @@
                     <div class="mt-8 sm:max-w-lg sm:mx-auto sm:text-center lg:text-left lg:mx-0">
                         <div class="mt-5 sm:mt-8 sm:flex sm:justify-center lg:justify-start">
                             <div class="rounded-md shadow">
-                                <a href="#cadastro" class="w-full flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-white bg-indigo-900 hover:bg-indigo-800 md:py-4 md:text-lg md:px-10">
+                                <a href="#cadastro-form" class="w-full flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-white bg-indigo-900 hover:bg-indigo-800 md:py-4 md:text-lg md:px-10">
                                     Comece gratuitamente
                                 </a>
                             </div>
@@ -121,9 +121,9 @@
                     </div>
                 </div>
                 <div class="mt-12 relative sm:max-w-lg sm:mx-auto lg:mt-0 lg:max-w-none lg:mx-0 lg:col-span-6 lg:flex lg:items-center">
-                    <div class="relative mx-auto w-full rounded-lg shadow-lg lg:max-w-md overflow-hidden">
+                    <div class="relative mx-auto w-full rounded-lg shadow-lg overflow-hidden">
                         <div class="absolute top-0 left-0 w-full h-full bg-indigo-900 opacity-10"></div>
-                        <img class="w-full" src="https://placehold.co/600x400?text=Dashboard+Plani" alt="Dashboard do Plani">
+                        <img class="w-full" src="{{ asset('images/plani-print-1.png')}}" alt="Dashboard do Plani">
                         <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black to-transparent p-4">
                             <p class="text-white text-sm">Dashboard completo com todas as métricas do seu negócio</p>
                         </div>
@@ -134,7 +134,7 @@
     </section>
 
     {{-- Diferenciais --}}
-    <section id="diferenciais" class="py-20 bg-gray-100">
+    <section id="diferenciais" class="py-20" style="background-color:rgb(243, 243, 243)">
         <div class="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8">
             <div class="lg:text-center">
                 <h2 class="text-base text-indigo-900 font-semibold tracking-wide uppercase">Diferenciais</h2>
@@ -205,7 +205,7 @@
         <div class="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8">
             <div class="lg:grid lg:grid-cols-2 lg:gap-16 items-center">
                 <div class="mb-12 lg:mb-0">
-                    <img class="rounded-lg shadow-xl" src="https://placehold.co/600x400?text=Code+Example" alt="Exemplo de código">
+                    <img class="rounded-lg shadow-xl" src="{{ asset('images/plani-print-2.png')}}" alt="Informações sobre o cliente">
                 </div>
                 <div>
                     <h2 class="text-3xl font-extrabold text-gray-900">Case de desenvolvimento</h2>
@@ -246,7 +246,7 @@
     </section>
 
     {{-- Tecnologias utilizadas --}}
-    <section id="tecnologia" class="py-20 bg-gray-100">
+    <section id="tecnologia" class="py-20" style="background-color: rgb(243, 243, 243)">
         <div class="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8">
             <div class="text-center">
                 <h2 class="text-3xl font-extrabold text-gray-900">Tecnologias utilizadas</h2>
@@ -264,7 +264,7 @@
                 </div>
                 <div class="col-span-1 flex justify-center">
                     <div class="flex items-center flex-wrap">
-                        <img src="{{asset('images/filament.webp')}}" alt="Filament" style="width: auto; height: 50px;">
+                        <img src="{{asset('images/filament.png')}}" alt="Filament" style="width: auto; height: 50px;">
                         <span class="ml-2 text-sm font-medium text-gray-900">Filament v3</span>
                     </div>
                 </div>
@@ -360,7 +360,7 @@
             </div>
             <div class="mt-12 max-w-3xl mx-auto">
                 <p class="lg:text-center">
-                    <a href="https://nycollaskaique.netlify.app" target="_blank" class="bg-white w-full lg:w-fit border border-transparent rounded-md shadow px-5 py-3 inline-flex items-center text-base font-medium text-indigo-900 hover:bg-indigo-50"> 
+                    <a href="https://nycollaskaique.netlify.app" target="_blank" class="bg-white w-full lg:w-fit border border-transparent rounded-md shadow px-5 py-3 inline-flex items-center justify-center text-base font-medium text-indigo-900 hover:bg-indigo-50"> 
                         Portfólio
                     </a>
                 </p>
@@ -381,20 +381,25 @@
                         <p class="mt-4 text-lg leading-6 text-indigo-200">
                             Explore o Plani com as contas de teste disponíveis no login para conhecer todas as funcionalidades. Quando estiver pronto, crie sua conta gratuita e comece a usar no mesmo instante.
                         </p>
-                        <a href="#cadastro-form" class="mt-8 w-full md:w-fit bg-white border border-transparent rounded-md shadow px-5 py-3 inline-flex items-center text-base font-medium text-indigo-900 hover:bg-indigo-50">
-                            Criar conta gratuita
-                        </a>
+                        <div class="md:flex items-center justify-start md:flex-1 gap-4">
+                            <a href="#cadastro-form" class="text-center mt-8 w-full md:w-fit bg-white border border-transparent rounded-md shadow px-5 py-3 inline-flex items-center justify-center text-base font-medium text-indigo-900 hover:bg-indigo-50">
+                                Criar conta gratuita
+                            </a>
+                            <a href="/admin/login" class="text-center mt-8 w-full md:w-fit bg-white border border-transparent rounded-md shadow px-5 py-3 inline-flex items-center justify-center text-base font-medium text-indigo-900 hover:bg-indigo-50">
+                                Login
+                            </a>
+                        </div>
                     </div>
                 </div>
                 <div class="col-span-1">
-                    <img class="rounded-md w-full object-cover" src="https://placehold.co/500x300?text=Plani+Demo" alt="Demonstração do Plani">
+                    <img class="rounded-md w-full object-cover" src="{{asset('images/plani-print-3.png')}}" alt="Demonstração do Plani">
                 </div>
             </div>
         </div>
     </section>
 
     {{-- Formulário de Cadastro --}}
-    <section id="cadastro-form" class="py-20 bg-gray-50">
+    <section id="cadastro-form" class="py-20" style="background-color: rgb(243, 243, 243)">
         <div class="max-w-md mx-auto px-4 sm:px-6 lg:px-8">
             <div class="bg-white py-8 px-6 shadow rounded-lg sm:px-10">
                 <div class="text-center mb-8">
@@ -451,7 +456,7 @@
     </section>
 
     {{-- Rodapé --}}
-    <footer class="bg-gray-800">
+    <footer style="background-color: rgb(243, 243, 243)">
         <div class="max-w-[1400px] mx-auto py-12 px-4 sm:px-6 lg:px-8">
             <div>
                 <h3 class="text-sm font-semibold text-gray-300 tracking-wider uppercase">Meus contatos</h3>
