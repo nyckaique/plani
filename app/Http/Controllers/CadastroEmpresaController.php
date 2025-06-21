@@ -1,3 +1,5 @@
+<?php 
+
 namespace App\Http\Controllers;
 
 use App\Models\User;
@@ -6,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Spatie\Permission\Models\Role;
+use Filament\Facades\Filament;
 
 class CadastroEmpresaController extends Controller
 {
@@ -35,7 +38,7 @@ class CadastroEmpresaController extends Controller
         $user->assignRole('Admin');
 
         // Faz login
-        Auth::login($user);
+        Filament::auth()->login($user);
 
         // Redireciona para dashboard Filament
         return redirect()->route('filament.admin.pages.dashboard');

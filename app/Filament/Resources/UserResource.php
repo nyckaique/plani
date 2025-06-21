@@ -53,7 +53,9 @@ class UserResource extends Resource
 
                 Select::make('roles')
                     ->label('Função')
-                    ->relationship('roles', 'name')
+                    ->relationship('roles', 'name', function ($query) {
+                        $query->where('name', '!=', 'Superadmin');
+                    })
                     ->preload()
                     ->required(),
             ]);

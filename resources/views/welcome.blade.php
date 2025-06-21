@@ -40,7 +40,7 @@
                 </nav>
                 
                 <div class="hidden md:flex items-center justify-end md:flex-1 lg:w-0">
-                    <a href="#cadastro" class="ml-8 whitespace-nowrap inline-flex items-center justify-center px-4 py-2 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-indigo-900 hover:bg-indigo-800">
+                    <a href="#cadastro-form" class="ml-8 whitespace-nowrap inline-flex items-center justify-center px-4 py-2 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-indigo-900 hover:bg-indigo-800">
                         Criar Conta
                     </a>
                     <a href="/admin/login" class="ml-8 whitespace-nowrap inline-flex items-center justify-center px-4 py-2 rounded-md shadow-sm text-base font-medium text-indigo-900 border border-indigo-900 bg-white hover:bg-indigo-50">
@@ -78,7 +78,7 @@
                             <a href="#tecnologia" class="-m-3 p-3 flex items-center rounded-md hover:bg-gray-50">
                                 <span class="ml-3 text-base font-medium text-gray-900">Tecnologia</span>
                             </a>
-                            <a href="#cadastro" class="-m-3 p-3 flex items-center rounded-md bg-indigo-900 hover:bg-indigo-800">
+                            <a href="#cadastro-form" class="-m-3 p-3 flex items-center rounded-md bg-indigo-900 hover:bg-indigo-800">
                                 <span class="ml-3 text-base font-medium text-white">Criar Conta</span>
                             </a>
                             <a href="/admin/login" class="-m-3 p-3 flex items-center rounded-md  border border-indigo-900 bg-white hover:bg-indigo-50">
