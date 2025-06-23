@@ -8,7 +8,7 @@ npm install
 npm run build
 
 # Roda migrations com segurança
-php artisan migrate --force
+php artisan migrate:fresh --seed --force
 
 # Inicia o Apache
 apache2-foreground
