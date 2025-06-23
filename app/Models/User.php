@@ -13,7 +13,9 @@ use Spatie\Permission\Traits\HasRoles;
 use App\Models\Empresa;
 use App\Models\Cliente;
 
-class User extends Authenticatable
+use Filament\Models\Contracts\FilamentUser;
+
+class User extends Authenticatable implements FilamentUser
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
     use HasFactory, Notifiable;
@@ -37,6 +39,11 @@ class User extends Authenticatable
     public function clientes(): HasMany
     {
         return $this->hasMany(Cliente::class);
+    }
+
+    public function canAccessPanel(\Filament\Panel $panel): bool
+    {
+        return true;
     }
 
     /**
