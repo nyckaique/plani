@@ -24,6 +24,7 @@ use App\Filament\Widgets\TotalUsuarios;
 
 use Filament\Support\Facades\FilamentView;
 use Filament\View\PanelsRenderHook;
+use Filament\Enums\ThemeMode;
 
 class AdminPanelProvider extends PanelProvider
 {
@@ -44,6 +45,7 @@ class AdminPanelProvider extends PanelProvider
             ->passwordReset()
             ->sidebarWidth('200px')
             ->font('Oxygen')
+            ->defaultThemeMode(ThemeMode::Light)
             ->viteTheme('resources/css/filament/admin/theme.css')
             ->sidebarCollapsibleOnDesktop()
             ->discoverResources(in: app_path('Filament/Resources'), for: 'App\\Filament\\Resources')
